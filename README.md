@@ -1,17 +1,19 @@
-# e-Absen SLB AN — PWA FINAL MOBILE
+# e-Absen SLB AN — PWA PORTRAIT FINAL
 
-Perubahan:
-- URL Apps Script ditanam langsung.
-- Form/tombol GANTI SERVER dihapus.
-- Tombol MUAT ULANG dihapus.
-- Shell memenuhi viewport HP.
-- Embedded app diberi mobile-fit untuk mengurangi overflow pada layar sempit.
-- Kamera, geolocation, fullscreen tetap diizinkan.
-- Backend Apps Script tidak di-cache.
+- Portrait-first manifest.
+- No GANTI SERVER.
+- No MUAT ULANG.
+- URL Apps Script embedded permanently.
+- Mobile wrapper scales the entire Apps Script interface to the portrait viewport.
+- Camera, geolocation, and fullscreen remain allowed.
+- Backend Apps Script requests are never cached.
 
-Replace these files in GitHub Pages:
+Replace the five files in GitHub Pages:
 index.html
 manifest.json
 service-worker.js
 icon-192.svg
 icon-512.svg
+
+After commit, open the GitHub Pages URL. To force the latest version on a phone,
+clear the site's cached data once or use the browser's refresh after deployment.

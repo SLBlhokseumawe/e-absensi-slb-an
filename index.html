@@ -1,167 +1,135 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport"
-        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-  <meta name="theme-color" content="#20358f">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="e-Absen SLB AN">
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" href="./icon-192.svg" type="image/svg+xml">
-  <title>e-Absen SLB AN</title>
-  <style>
-    *{box-sizing:border-box}
-    html,body{
-      width:100%;
-      height:100%;
-      margin:0;
-      padding:0;
-      overflow:hidden;
-      background:#eef3f8;
-      overscroll-behavior:none;
-    }
-    body{
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-    }
-    #viewport{
-      position:fixed;
-      inset:0;
-      overflow:hidden;
-      width:100vw;
-      height:100dvh;
-      height:100svh;
-      height:100vh;
-      background:#eef3f8;
-    }
-    #appScale{
-      position:absolute;
-      left:0;
-      top:0;
-      transform-origin:top left;
-      width:100%;
-      height:100%;
-    }
-    #appFrame{
-      display:block;
-      width:100%;
-      height:100%;
-      border:0;
-      margin:0;
-      padding:0;
-      background:#eef3f8;
-      overflow:hidden;
-    }
-    #boot{
-      position:fixed;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#eef3f8;
-      z-index:10;
-      transition:opacity .2s ease;
-    }
-    .boot-card{
-      width:min(300px,calc(100% - 32px));
-      padding:22px 18px;
-      border-radius:20px;
-      background:#fff;
-      box-shadow:0 18px 50px rgba(15,23,42,.12);
-      text-align:center;
-    }
-    .boot-card img{
-      width:70px;
-      height:70px;
-      object-fit:contain;
-      margin-bottom:8px;
-    }
-    .boot-title{
-      font-weight:800;
-      color:#20358f;
-      font-size:20px;
-    }
-    .boot-sub{
-      margin-top:4px;
-      color:#64748b;
-      font-size:12px;
-    }
-    .spinner{
-      width:26px;
-      height:26px;
-      border:3px solid #dbe3ef;
-      border-top-color:#20358f;
-      border-radius:50%;
-      margin:15px auto 0;
-      animation:spin .8s linear infinite;
-    }
-    @keyframes spin{to{transform:rotate(360deg)}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#20358f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="e-Absen SLB AN">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.svg" type="image/svg+xml">
+<title>e-Absen SLB AN</title>
+<style>
+*{box-sizing:border-box}
+html,body{
+  width:100%;height:100%;margin:0;padding:0;
+  overflow:hidden;background:#eef3f8;
+}
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  touch-action:manipulation;
+}
+#stage{
+  position:fixed;inset:0;overflow:hidden;
+  width:100vw;height:100dvh;height:100svh;height:100vh;
+  background:#eef3f8;
+}
+#canvas{
+  position:absolute;left:0;top:0;
+  transform-origin:top left;
+  overflow:hidden;
+}
+#frame{
+  display:block;border:0;margin:0;padding:0;
+  background:#eef3f8;
+}
+#boot{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:#eef3f8;z-index:99;transition:opacity .18s ease;
+}
+.boot-card{
+  width:min(290px,calc(100% - 36px));padding:22px 18px;border-radius:20px;
+  background:#fff;box-shadow:0 18px 55px rgba(15,23,42,.14);text-align:center;
+}
+.boot-card img{width:68px;height:68px;object-fit:contain}
+.boot-title{margin-top:7px;font-weight:800;color:#20358f;font-size:19px}
+.boot-sub{margin-top:3px;color:#64748b;font-size:12px}
+.spinner{
+  width:25px;height:25px;margin:14px auto 0;border-radius:50%;
+  border:3px solid #dbe3ef;border-top-color:#20358f;
+  animation:spin .75s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
 </head>
 <body>
-  <div id="viewport">
-    <div id="appScale">
-      <iframe
-        id="appFrame"
-        src="https://script.google.com/macros/s/AKfycbymde3T1CXRu4zAwrDc95CN68THH1soVCLmMY7qoRrDQOGT8LhRaN7i8-rVL0DfgqGr/exec"
-        title="e-Absen SLB AN"
-        allow="camera; microphone; geolocation; fullscreen"
-        allowfullscreen
-        referrerpolicy="strict-origin-when-cross-origin">
-      </iframe>
-    </div>
+<div id="stage">
+  <div id="canvas">
+    <iframe id="frame"
+      src="https://script.google.com/macros/s/AKfycbymde3T1CXRu4zAwrDc95CN68THH1soVCLmMY7qoRrDQOGT8LhRaN7i8-rVL0DfgqGr/exec"
+      title="e-Absen SLB AN"
+      allow="camera; microphone; geolocation; fullscreen"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
   </div>
+</div>
 
-  <div id="boot" aria-live="polite">
-    <div class="boot-card">
-      <img src="./icon-192.svg" alt="Logo SLB AN">
-      <div class="boot-title">e-Absen SLB AN</div>
-      <div class="boot-sub">Membuka aplikasi...</div>
-      <div class="spinner" aria-hidden="true"></div>
-    </div>
+<div id="boot">
+  <div class="boot-card">
+    <img src="./icon-192.svg" alt="Logo SLB AN">
+    <div class="boot-title">e-Absen SLB AN</div>
+    <div class="boot-sub">Membuka aplikasi...</div>
+    <div class="spinner"></div>
   </div>
+</div>
 
-  <script>
-    (function(){
-      const frame=document.getElementById("appFrame");
-      const shell=document.getElementById("appScale");
-      const boot=document.getElementById("boot");
+<script>
+(function(){
+  const stage=document.getElementById("stage");
+  const canvas=document.getElementById("canvas");
+  const frame=document.getElementById("frame");
+  const boot=document.getElementById("boot");
 
-      function applyMobileFit(){
-        const w=window.innerWidth || document.documentElement.clientWidth || 390;
-        let scale=1;
+  function fitPortrait(){
+    const vw=window.innerWidth || 360;
+    const vh=window.innerHeight || 640;
 
-        // Mobile shell fit: reduce the embedded Apps Script document
-        // slightly on narrow phones so the dashboard does not exceed
-        // the visible viewport.
-        if(w <= 420) scale=0.78;
-        else if(w <= 600) scale=0.84;
-        else if(w <= 800) scale=0.92;
+    // Apps Script UI is designed for a wider desktop canvas.
+    // Render it as a portrait mobile canvas by shrinking the entire
+    // embedded document and giving the iframe the inverse dimensions.
+    let scale=1;
 
-        shell.style.transform="scale("+scale+")";
-        shell.style.width=(100/scale)+"%";
-        shell.style.height=(100/scale)+"%";
-      }
+    if(vw<=380) scale=0.62;
+    else if(vw<=420) scale=0.67;
+    else if(vw<=480) scale=0.72;
+    else if(vw<=600) scale=0.80;
+    else if(vw<=900) scale=0.92;
 
-      applyMobileFit();
-      window.addEventListener("resize",applyMobileFit,{passive:true});
-      window.addEventListener("orientationchange",function(){
-        setTimeout(applyMobileFit,250);
-      },{passive:true});
+    const logicalW=vw/scale;
+    const logicalH=vh/scale;
 
-      frame.addEventListener("load",function(){
-        boot.style.opacity="0";
-        setTimeout(function(){boot.style.display="none";},220);
-      });
+    canvas.style.width=logicalW+"px";
+    canvas.style.height=logicalH+"px";
+    canvas.style.transform="scale("+scale+")";
 
-      if("serviceWorker" in navigator){
-        navigator.serviceWorker.register("./service-worker.js").catch(function(err){
-          console.warn("Service worker tidak aktif:",err);
-        });
-      }
-    })();
-  </script>
+    frame.style.width=logicalW+"px";
+    frame.style.height=logicalH+"px";
+    frame.style.minWidth="0";
+    frame.style.minHeight="0";
+
+    stage.style.width=vw+"px";
+    stage.style.height=vh+"px";
+  }
+
+  fitPortrait();
+  window.addEventListener("resize",fitPortrait,{passive:true});
+  window.addEventListener("orientationchange",function(){
+    setTimeout(fitPortrait,300);
+  },{passive:true});
+
+  frame.addEventListener("load",function(){
+    boot.style.opacity="0";
+    setTimeout(function(){boot.style.display="none";},200);
+  });
+
+  if("serviceWorker" in navigator){
+    navigator.serviceWorker.register("./service-worker.js").catch(function(err){
+      console.warn("Service worker tidak aktif:",err);
+    });
+  }
+})();
+</script>
 </body>
 </html>
