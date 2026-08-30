@@ -1,4 +1,4 @@
-const CACHE_NAME = "e-absen-slb-an-pwa-v4";
+const CACHE_NAME = "e-absen-slb-an-pwa-v5";
 const SHELL = [
   "./",
   "./index.html",
@@ -9,7 +9,9 @@ const SHELL = [
 
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(SHELL).catch(() => {}))
+    caches.open(CACHE_NAME).then(cache =>
+      cache.addAll(SHELL).catch(() => {})
+    )
   );
   self.skipWaiting();
 });
@@ -28,10 +30,7 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
   const u = new URL(event.request.url);
-
-  // Backend must always stay live; never cache Apps Script.
   if (u.hostname === "script.google.com") return;
-
   event.respondWith(
     caches.match(event.request).then(cached => cached || fetch(event.request))
   );
