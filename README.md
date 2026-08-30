@@ -1,19 +1,21 @@
-# e-Absen SLB AN — PWA PORTRAIT FINAL
+# e-Absen SLB AN — PWA NO BLUE FINAL
 
-- Portrait-first manifest.
-- No GANTI SERVER.
-- No MUAT ULANG.
-- URL Apps Script embedded permanently.
-- Mobile wrapper scales the entire Apps Script interface to the portrait viewport.
-- Camera, geolocation, and fullscreen remain allowed.
-- Backend Apps Script requests are never cached.
+Versi ini menghapus iframe PWA yang menyebabkan tampilan desktop/landscape dan panel biru
+melebar pada HP.
 
-Replace the five files in GitHub Pages:
+Perilaku:
+- Tidak meminta URL server.
+- Tidak ada GANTI SERVER.
+- Tidak ada MUAT ULANG.
+- Tidak memakai iframe.
+- Langsung mengarahkan ke Web App Apps Script yang sudah PASS.
+- Manifest portrait-primary.
+- Kamera/GPS tetap ditangani oleh Web App Apps Script.
+- Backend Apps Script tidak diubah.
+
+Ganti file berikut di GitHub Pages:
 index.html
 manifest.json
 service-worker.js
 icon-192.svg
 icon-512.svg
-
-After commit, open the GitHub Pages URL. To force the latest version on a phone,
-clear the site's cached data once or use the browser's refresh after deployment.
