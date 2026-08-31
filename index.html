@@ -2,43 +2,115 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#20358f">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="e-Absen SLB AN">
 <link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./icon-192.svg" type="image/svg+xml">
+<link rel="icon" href="./icon-192.png" type="image/png">
 <title>e-Absen SLB AN</title>
 <style>
-html,body{margin:0;width:100%;height:100%;background:#fff}
+*{box-sizing:border-box}
+html,body{
+  width:100%;height:100%;margin:0;padding:0;overflow:hidden;
+  background:#fff;
+}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-#boot{position:fixed;inset:0;display:grid;place-items:center;background:#fff;z-index:5}
-.card{text-align:center;padding:24px}
-.logo{width:72px;height:72px;object-fit:contain}
-.title{margin-top:8px;font-size:20px;font-weight:800;color:#20358f}
-.sub{margin-top:4px;font-size:12px;color:#64748b}
+#viewport{
+  position:fixed;inset:0;width:100vw;height:100dvh;height:100svh;height:100vh;
+  overflow:hidden;background:#fff;
+}
+#frameWrap{
+  position:absolute;left:0;top:0;overflow:hidden;background:#fff;
+  transform-origin:top left;
+}
+#frame{
+  display:block;width:100%;height:100%;border:0;margin:0;padding:0;background:#fff;
+}
+#boot{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:#fff;z-index:10;transition:opacity .18s ease;
+}
+.boot-card{
+  width:min(280px,calc(100% - 36px));padding:22px 16px;border-radius:18px;
+  background:#fff;text-align:center;
+}
+.boot-card img{width:68px;height:68px;object-fit:contain}
+.boot-title{margin-top:8px;font-size:19px;font-weight:800;color:#20358f}
+.boot-sub{margin-top:4px;font-size:12px;color:#64748b}
 </style>
 </head>
 <body>
-<div id="boot" aria-live="polite">
-  <div class="card">
-    <img class="logo" src="./icon-192.svg" alt="Logo SLB AN">
-    <div class="title">e-Absen SLB AN</div>
-    <div class="sub">Membuka aplikasi...</div>
+<div id="viewport">
+  <div id="frameWrap">
+    <iframe id="frame"
+      src="https://script.google.com/macros/s/AKfycbymde3T1CXRu4zAwrDc95CN68THH1soVCLmMY7qoRrDQOGT8LhRaN7i8-rVL0DfgqGr/exec"
+      title="e-Absen SLB AN"
+      allow="camera; microphone; geolocation; fullscreen"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+</div>
+
+<div id="boot">
+  <div class="boot-card">
+    <img src="./icon-192.png" alt="Logo SLB AN">
+    <div class="boot-title">e-Absen SLB AN</div>
+    <div class="boot-sub">Membuka aplikasi...</div>
   </div>
 </div>
 
 <script>
 (function(){
-  const target="https://script.google.com/macros/s/AKfycbymde3T1CXRu4zAwrDc95CN68THH1soVCLmMY7qoRrDQOGT8LhRaN7i8-rVL0DfgqGr/exec";
-  setTimeout(function(){
-    window.location.replace(target);
-  },80);
+  const viewport=document.getElementById("viewport");
+  const wrap=document.getElementById("frameWrap");
+  const frame=document.getElementById("frame");
+  const boot=document.getElementById("boot");
+
+  function fit(){
+    const vw=window.innerWidth||360;
+    const vh=window.innerHeight||640;
+
+    // The existing Apps Script UI has a desktop-oriented content width.
+    // Scale it down for portrait phones so it never protrudes horizontally.
+    let scale;
+    if(vw<=360) scale=0.43;
+    else if(vw<=390) scale=0.46;
+    else if(vw<=430) scale=0.49;
+    else if(vw<=480) scale=0.52;
+    else if(vw<=600) scale=0.60;
+    else scale=0.72;
+
+    const logicalW=vw/scale;
+    const logicalH=vh/scale;
+
+    wrap.style.width=logicalW+"px";
+    wrap.style.height=logicalH+"px";
+    wrap.style.transform="scale("+scale+")";
+
+    frame.style.width=logicalW+"px";
+    frame.style.height=logicalH+"px";
+
+    viewport.style.background="#fff";
+  }
+
+  fit();
+  window.addEventListener("resize",fit,{passive:true});
+  window.addEventListener("orientationchange",function(){
+    setTimeout(fit,250);
+  },{passive:true});
+
+  frame.addEventListener("load",function(){
+    boot.style.opacity="0";
+    setTimeout(function(){boot.style.display="none"},180);
+  });
 
   if("serviceWorker" in navigator){
-    navigator.serviceWorker.register("./service-worker.js").catch(function(){});
+    navigator.serviceWorker.register("./service-worker.js").catch(function(err){
+      console.warn("Service worker:",err);
+    });
   }
 })();
 </script>

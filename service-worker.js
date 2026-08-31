@@ -1,5 +1,5 @@
-const CACHE_NAME="e-absen-shell-v8";
-const SHELL=["./","./index.html","./manifest.json","./icon-192.svg","./icon-512.svg"];
+const CACHE_NAME="e-absen-mobile-v9";
+const SHELL=["./","./index.html","./manifest.json","./icon-192.png","./icon-512.png"];
 
 self.addEventListener("install",e=>{
   e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL).catch(()=>{})));
@@ -12,8 +12,8 @@ self.addEventListener("activate",e=>{
   self.clients.claim();
 });
 self.addEventListener("fetch",e=>{
-  if(e.request.method!=="GET") return;
+  if(e.request.method!=="GET")return;
   const u=new URL(e.request.url);
-  if(u.hostname==="script.google.com") return;
+  if(u.hostname==="script.google.com")return;
   e.respondWith(caches.match(e.request).then(c=>c||fetch(e.request)));
 });

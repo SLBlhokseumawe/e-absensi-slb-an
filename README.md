@@ -1,21 +1,19 @@
-# e-Absen SLB AN — PWA NO BLUE FINAL
+# e-Absen SLB AN — MOBILE PORTRAIT + LOGO FINAL
 
-Versi ini menghapus iframe PWA yang menyebabkan tampilan desktop/landscape dan panel biru
-melebar pada HP.
-
-Perilaku:
-- Tidak meminta URL server.
+Perbaikan:
+- Ikon aplikasi menggunakan logo SLB dari tampilan aplikasi.
 - Tidak ada GANTI SERVER.
 - Tidak ada MUAT ULANG.
-- Tidak memakai iframe.
-- Langsung mengarahkan ke Web App Apps Script yang sudah PASS.
-- Manifest portrait-primary.
-- Kamera/GPS tetap ditangani oleh Web App Apps Script.
-- Backend Apps Script tidak diubah.
+- Background wrapper PWA putih, tanpa panel biru.
+- Tampilan embedded Apps Script diperkecil dengan skala khusus portrait HP.
+- Tidak ada horizontal overflow pada shell PWA.
+- Backend Apps Script tetap sama.
+- GPS/kamera tetap diizinkan.
+- Request script.google.com tidak di-cache.
 
-Ganti file berikut di GitHub Pages:
+Replace:
 index.html
 manifest.json
 service-worker.js
-icon-192.svg
-icon-512.svg
+icon-192.png
+icon-512.png
